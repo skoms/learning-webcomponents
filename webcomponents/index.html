@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Web Components</title>
+		<script src="tooltip.js"></script>
+		<script src="confirm-link.js"></script>
+		<style>
+			* {
+				box-sizing: border-box;
+			}
+
+			:root {
+				font-family: sans-serif;
+				--color-primary: darkblue;
+				--bg-primary: lightgray;
+			}
+		</style>
+	</head>
+	<body>
+		<p>
+			<ybc-tooltip
+				class="important"
+				text="Web Components is a set of standards"
+			>
+				<span class="highlight">Web Components</span>
+			</ybc-tooltip>
+			are awesome
+		</p>
+		<ybc-tooltip></ybc-tooltip>
+		<hr />
+		<div>This does not get the component styling thanks to the shadow dom!</div>
+		<hr />
+		<a is="ybc-confirm-link" href="https://www.google.com">Google</a>
+	</body>
+</html>
