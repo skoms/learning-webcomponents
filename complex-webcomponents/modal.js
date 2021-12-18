@@ -15,6 +15,7 @@ class Modal extends HTMLElement {
           z-index: 10;
           opacity: 0;
           pointer-events: none;
+          transition: all .15s ease-in-out;
         }
 
         #modal {
@@ -22,7 +23,7 @@ class Modal extends HTMLElement {
           top: 15vh;
           left: 25%;
           width: 50%;
-          padding: 1rem;
+          padding: 0 1rem;
           background: white;
           border-radius: 0.25rem;
           box-shadow: 0 2px 8px rgba( 0, 0, 0, 0.25);
@@ -32,6 +33,8 @@ class Modal extends HTMLElement {
           justify-content: space-between;
           opacity: 0;
           pointer-events: none;
+          transition: all .3s ease-in-out;
+          transform: translateY(-15vh);
         }
 
         :host([opened]) #modal,
@@ -40,11 +43,17 @@ class Modal extends HTMLElement {
           pointer-events: all;
         }
 
-        header {
-          padding: 1rem;
+        :host([opened]) #modal {
+          transform: translateY(0);
         }
 
-        header h1 {
+        header {
+          padding: 1rem;
+          border-bottom: 1px solid #ccc;
+        }
+
+        header ::slotted(h1) {
+          margin: 0;
           font-size: 1.25rem;
         }
 
@@ -69,17 +78,26 @@ class Modal extends HTMLElement {
       </div>
       <div id="modal">
         <header>
-          <h1>Please Confirm</h1>
+          <slot name="header">Please Confirm</slot>
         </header>
         <main>
           <slot></slot>
         </main>
         <section id="actions">
-          <button>Confirm</button>
-          <button>Cancel</button>
+          <button id="confirm-btn">Confirm</button>
+          <button id="cancel-btn">Cancel</button>
         </section>
       </div>
     `
+		const slots = this.shadowRoot.querySelectorAll('slot')
+		slots[1].addEventListener('slotchange', (event) => {
+			console.dir(slots[1].assignedNodes())
+		})
+		const confirmButton = this.shadowRoot.getElementById('confirm-btn')
+		const cancelButton = this.shadowRoot.getElementById('cancel-btn')
+
+		confirmButton.addEventListener('click', this._confirm.bind(this))
+		cancelButton.addEventListener('click', this._cancel.bind(this))
 	}
 
 	connectedCallback() {
@@ -88,12 +106,9 @@ class Modal extends HTMLElement {
 			this.isOpen = true
 		}
 
-		this.shadowRoot.querySelectorAll('button').forEach((button) => {
-			button.addEventListener('click', this.close.bind(this))
-		})
 		this.shadowRoot
 			.querySelector('#backdrop')
-			.addEventListener('click', this.close.bind(this))
+			.addEventListener('click', this._cancel.bind(this))
 	}
 
 	attributeChangedCallback(name, oldVal, newVal) {
@@ -111,20 +126,36 @@ class Modal extends HTMLElement {
 	}
 
 	disconnectedCallback() {
-		this.shadowRoot.querySelectorAll('button').forEach((button) => {
-			button.removeEventListener('click', this.close)
-		})
 		this.shadowRoot
 			.querySelector('#backdrop')
-			.removeEventListener('click', this.close)
+			.removeEventListener('click', this._cancel)
 	}
 
 	open() {
 		this.setAttribute('opened', '')
+		this.isOpen = true
 	}
 
 	close() {
-		this.removeAttribute('opened')
+		if (this.hasAttribute('opened')) {
+			this.removeAttribute('opened')
+		}
+		this.isOpen = false
+	}
+
+	_confirm() {
+		this.close()
+		const confirmEvent = new Event('confirm')
+		this.dispatchEvent(confirmEvent)
+	}
+
+	_cancel(event) {
+		this.close()
+
+		//? 'bubbles' boolean - whether or not to let event bubble up until it finds a listener
+		//? 'composed' boolean - whether to let the event be emitted to the outside of the shadow dom
+		const cancelEvent = new Event('cancel', { bubbles: true, composed: true })
+		event.target.dispatchEvent(cancelEvent)
 	}
 }
 

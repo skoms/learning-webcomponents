@@ -19,6 +19,7 @@
 	</head>
 	<body>
 		<ybc-modal>
+			<h1 slot="header">Inserted Header</h1>
 			<p>With your confirmation, you agree to pay the full amount!</p>
 		</ybc-modal>
 		<p>Please confirm your choice</p>
@@ -26,6 +27,15 @@
 		<script>
 			const confirmButton = document.querySelector('button')
 			const modal = document.querySelector('ybc-modal')
+
+			modal.addEventListener('confirm', () => {
+				console.log('Confirmed...')
+			})
+
+			modal.addEventListener('cancel', () => {
+				console.log('Cancelled...')
+			})
+
 			confirmButton.addEventListener('click', () => {
 				if (!modal.isOpen) {
 					modal.open()
