@@ -6,38 +6,54 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
-    interface MyComponent {
-        "first": string;
-        "last": string;
-        "middle": string;
+    interface YbcSideDrawer {
+        "open": () => Promise<void>;
+        "opened": boolean;
+        "title": string;
+    }
+    interface YbcTooltip {
+        "open": boolean;
+        "tooltip": string;
     }
 }
 declare global {
-    interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
+    interface HTMLYbcSideDrawerElement extends Components.YbcSideDrawer, HTMLStencilElement {
     }
-    var HTMLMyComponentElement: {
-        prototype: HTMLMyComponentElement;
-        new (): HTMLMyComponentElement;
+    var HTMLYbcSideDrawerElement: {
+        prototype: HTMLYbcSideDrawerElement;
+        new (): HTMLYbcSideDrawerElement;
+    };
+    interface HTMLYbcTooltipElement extends Components.YbcTooltip, HTMLStencilElement {
+    }
+    var HTMLYbcTooltipElement: {
+        prototype: HTMLYbcTooltipElement;
+        new (): HTMLYbcTooltipElement;
     };
     interface HTMLElementTagNameMap {
-        "my-component": HTMLMyComponentElement;
+        "ybc-side-drawer": HTMLYbcSideDrawerElement;
+        "ybc-tooltip": HTMLYbcTooltipElement;
     }
 }
 declare namespace LocalJSX {
-    interface MyComponent {
-        "first"?: string;
-        "last"?: string;
-        "middle"?: string;
+    interface YbcSideDrawer {
+        "opened"?: boolean;
+        "title"?: string;
+    }
+    interface YbcTooltip {
+        "open"?: boolean;
+        "tooltip"?: string;
     }
     interface IntrinsicElements {
-        "my-component": MyComponent;
+        "ybc-side-drawer": YbcSideDrawer;
+        "ybc-tooltip": YbcTooltip;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "ybc-side-drawer": LocalJSX.YbcSideDrawer & JSXBase.HTMLAttributes<HTMLYbcSideDrawerElement>;
+            "ybc-tooltip": LocalJSX.YbcTooltip & JSXBase.HTMLAttributes<HTMLYbcTooltipElement>;
         }
     }
 }

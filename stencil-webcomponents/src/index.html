@@ -2,13 +2,68 @@
 <html dir="ltr" lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0"
+    />
     <title>Stencil Component Starter</title>
 
     <script type="module" src="/build/stencil-webcomponents.esm.js"></script>
     <script nomodule src="/build/stencil-webcomponents.js"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+      }
+
+      .side-nav ul {
+        list-style: none;
+      }
+
+      .side-nav li {
+        margin: 1rem 0;
+      }
+
+      .side-nav a {
+        text-decoration: none;
+        color: black;
+      }
+    </style>
   </head>
   <body>
-    <my-component first="Stencil" last="'Don't call me a framework' JS"></my-component>
+    <ybc-side-drawer title="Main Menu">
+      <nav class="side-nav">
+        <ul>
+          <li><a href="#">A link</a></li>
+          <li><a href="#">Another link</a></li>
+          <li><a href="#">Yet another link</a></li>
+        </ul>
+      </nav>
+    </ybc-side-drawer>
+
+    <button>Open Side Menu</button>
+
+    <p>
+      This place is hella
+      <ybc-tooltip
+        tooltip="Lit is a word that young people use to say that something or somewhere is lively and/or has gread atmosphere"
+        >lit</ybc-tooltip
+      >
+    </p>
+
+    <script>
+      const sideDrawer = document.querySelector('ybc-side-drawer')
+      setTimeout(() => {
+        // sideDrawer.title = 'It Changed';
+        // sideDrawer.setAttribute('title', 'Changed per attribute');
+      }, 3000)
+
+      const openButton = document.querySelector('button')
+      openButton.addEventListener('click', () => {
+        if (!sideDrawer.opened) {
+          // sideDrawer.open = true;
+          sideDrawer.open()
+        }
+      })
+    </script>
   </body>
 </html>
