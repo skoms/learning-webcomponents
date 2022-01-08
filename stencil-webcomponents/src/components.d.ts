@@ -11,6 +11,9 @@ export namespace Components {
         "opened": boolean;
         "title": string;
     }
+    interface YbcStockPrice {
+        "stockSymbol": string;
+    }
     interface YbcTooltip {
         "open": boolean;
         "tooltip": string;
@@ -23,6 +26,12 @@ declare global {
         prototype: HTMLYbcSideDrawerElement;
         new (): HTMLYbcSideDrawerElement;
     };
+    interface HTMLYbcStockPriceElement extends Components.YbcStockPrice, HTMLStencilElement {
+    }
+    var HTMLYbcStockPriceElement: {
+        prototype: HTMLYbcStockPriceElement;
+        new (): HTMLYbcStockPriceElement;
+    };
     interface HTMLYbcTooltipElement extends Components.YbcTooltip, HTMLStencilElement {
     }
     var HTMLYbcTooltipElement: {
@@ -31,6 +40,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "ybc-side-drawer": HTMLYbcSideDrawerElement;
+        "ybc-stock-price": HTMLYbcStockPriceElement;
         "ybc-tooltip": HTMLYbcTooltipElement;
     }
 }
@@ -39,12 +49,16 @@ declare namespace LocalJSX {
         "opened"?: boolean;
         "title"?: string;
     }
+    interface YbcStockPrice {
+        "stockSymbol"?: string;
+    }
     interface YbcTooltip {
         "open"?: boolean;
         "tooltip"?: string;
     }
     interface IntrinsicElements {
         "ybc-side-drawer": YbcSideDrawer;
+        "ybc-stock-price": YbcStockPrice;
         "ybc-tooltip": YbcTooltip;
     }
 }
@@ -53,6 +67,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "ybc-side-drawer": LocalJSX.YbcSideDrawer & JSXBase.HTMLAttributes<HTMLYbcSideDrawerElement>;
+            "ybc-stock-price": LocalJSX.YbcStockPrice & JSXBase.HTMLAttributes<HTMLYbcStockPriceElement>;
             "ybc-tooltip": LocalJSX.YbcTooltip & JSXBase.HTMLAttributes<HTMLYbcTooltipElement>;
         }
     }
