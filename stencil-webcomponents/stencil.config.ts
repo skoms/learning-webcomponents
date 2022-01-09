@@ -20,4 +20,7 @@ export const config: Config = {
       serviceWorker: null, // disable service workers
     },
   ],
+  // bundles: [
+  //   { components: ['ybc-stock-finder', 'ybc-stock-price', 'ybc-spinner'] }
+  // ]
 };

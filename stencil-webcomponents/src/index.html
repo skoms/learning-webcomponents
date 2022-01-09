@@ -8,10 +8,26 @@
     />
     <title>Stencil Component Starter</title>
 
+    <style>
+      html {
+        --color-primary: #3b013b;
+        --color-primary-contrast: white;
+        --color-primary-highlight: #5e025e;
+      }
+    </style>
+
     <script type="module" src="/build/stencil-webcomponents.esm.js"></script>
     <script nomodule src="/build/stencil-webcomponents.js"></script>
   </head>
   <body>
     <ybc-stock-price stock-symbol="AAPL"></ybc-stock-price>
+    <ybc-stock-finder></ybc-stock-finder>
+
+    <script>
+      const stockFinderEl = document.querySelector('ybc-stock-finder')
+      stockFinderEl.addEventListener('ybcSymbolSelected', e => {
+        console.log(e.detail)
+      })
+    </script>
   </body>
 </html>

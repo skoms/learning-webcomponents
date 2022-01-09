@@ -1,4 +1,4 @@
-import { Component, h, Prop, State /*, Element */, Watch } from '@stencil/core'
+import { Component, h, Listen, Prop, State /*, Element */, Watch } from '@stencil/core'
 
 import { AV_API_KEY } from '../../global/global'
 
@@ -17,6 +17,7 @@ export class StockPrice {
   @State() stockUserInput: string
   @State() stockInputValid = false
   @State() error: string
+  @State() loading = false
 
   @Prop({ mutable: true, reflect: true }) stockSymbol: string
 
@@ -24,6 +25,7 @@ export class StockPrice {
   stockSymbolChanged(newVal: string, oldVal) {
     if (newVal !== oldVal) {
       this.stockUserInput = newVal
+      this.stockInputValid = true
       this.fetchStockPrice(newVal)
     }
   }
@@ -77,7 +79,16 @@ export class StockPrice {
     console.log('Disconnect callback')
   }
 
+  @Listen('ybcSymbolSelected', { target: 'body' })
+  onStockSymbolSelected(event: CustomEvent) {
+    console.log(`Stock Symbol Selected: ${event.detail}`);
+    if (event.detail && event.detail !== this.stockSymbol) {
+      this.stockSymbol = event.detail
+    }
+  }
+
   fetchStockPrice(stockSymbol: string) {
+    this.loading = true
     fetch(
       `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbol}&apikey=${AV_API_KEY}`,
     )
@@ -92,6 +103,16 @@ export class StockPrice {
       .catch(err => {
         this.error = err.message
       })
+      .finally(() => { 
+        this.loading = false
+      })
+  }
+
+  //? Special Reserved
+  hostData() {
+    return {
+      class: this.error ? 'error' : ''
+    }
   }
 
   render() {
@@ -109,12 +130,15 @@ export class StockPrice {
           value={this.stockUserInput}
           onInput={this.onUserInput}
         />
-        <button type="submit" disabled={!this.stockInputValid}>
+        <button type="submit" disabled={!this.stockInputValid || this.loading}>
           Fetch
         </button>
       </form>,
       <div>
-        <p>{dataContent}</p>
+        { !this.loading 
+            ? <p>{dataContent}</p>
+            : <ybc-spinner />
+        }
       </div>,
     ]
   }

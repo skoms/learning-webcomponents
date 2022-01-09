@@ -1,0 +1,56 @@
+:host {
+  display: block;
+  font-family: sans-serif;
+  border: 2px solid var(--color-primary, black);
+  margin: 2rem;
+  padding: 1rem;
+  width: 20rem;
+  max-width: 100%;
+  border-radius: 3px;
+}
+:host form input {
+  display: block;
+  font-family: inherit;
+  color: var(--color-primary, black);
+  padding: 0.1rem 0.25rem;
+  margin-bottom: 0.5rem;
+}
+:host form input:focus,
+:host form button:focus {
+  outline: none;
+}
+:host form button {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--color-primary, black);
+  background: var(--color-primary, black);
+  color: var(--color-primary-contrast, white);
+  border-radius: 3px;
+  cursor: pointer;
+}
+:host form button:hover,
+:host form button:active {
+  background: var(--color-primary-highlight, darkgray);
+  border: 1px solid var(--color-primary-highlight, darkgray);
+}
+:host form button:disabled {
+  background: var(--color-disabled, #ccc);
+  border-color: var(--color-disabled, #ccc);
+  color: var(--color-disabled-contrast, #black);
+  cursor: not-allowed;
+}
+:host ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+:host ul li {
+  margin: 0.25rem 0;
+  padding: 0.25rem;
+  border: 1px solid #ccc;
+}
+:host ul li:hover,
+:host ul li:active {
+  cursor: pointer;
+  color: var(--color-primary-contrast, white);
+  background: var(--color-primary, black);
+}
